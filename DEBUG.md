@@ -383,3 +383,98 @@ the done state.
 - Focused Ruff: `cactus/venv/bin/ruff check voice_agent/agent/browser_use_adapter.py voice_agent/agent/orchestrator.py voice_agent/agent/system_prompts.py voice_agent/ui/native/reducer.py tests/test_browser_use_adapter.py tests/test_orchestrator.py tests/test_native_reducer.py` -> all checks passed.
 - Focused regression: `cactus/venv/bin/python -m pytest tests/test_browser_use_adapter.py tests/test_orchestrator.py tests/test_native_reducer.py -q` -> 8 passed.
 - Full non-eval regression: `cactus/venv/bin/python -m pytest tests/ -q --ignore=tests/evals` -> 112 passed.
+
+## Chrome Browser Use Follow-up
+
+### Problem
+
+The user needs Browser Use to operate inside a browser session that can be
+logged in to LinkedIn. The first attempt to attach to default Chrome via CDP did
+not expose a debugging port. The fallback attempt to let Browser Use launch the
+real default Chrome profile opened a black Chrome window and did not progress.
+
+### Hypotheses
+
+- C1: Chrome no longer exposes remote debugging for the default user data
+  directory, so `--remote-debugging-port=9222` with the normal profile silently
+  fails to bind.
+- C2: Launching Playwright/Browser Use directly against the normal Chrome user
+  data directory is blocked by profile locks or Chrome profile safety rules,
+  resulting in a black window and timeout.
+- C3: Browser Use cannot launch Google Chrome at all in this environment.
+- C4: The browser task stalled in the planner or Browser Use LLM after a valid
+  browser session was established.
+
+### Experiments
+
+#### Experiment 1
+- Hypothesis tested: C1
+- Expected if true: Launching Chrome with `--remote-debugging-port=9222` and
+  the default profile shows the flag in the process list but `127.0.0.1:9222`
+  does not listen.
+- Expected if false: `curl http://127.0.0.1:9222/json/version` returns Chrome
+  version metadata.
+- Change / probe: Launched Google Chrome with `--remote-debugging-port=9222`
+  and `--profile-directory=Default`, then checked `curl` and `lsof`.
+- Result: Chrome process had the flag, but no process listened on port `9222`.
+- Conclusion: C1 is supported.
+
+#### Experiment 2
+- Hypothesis tested: C2
+- Expected if true: Browser Use logs show it launching against
+  `~/Library/Application Support/Google/Chrome`, then timing out before a usable
+  browser context appears.
+- Expected if false: Browser Use should connect, navigate, and report page state.
+- Change / probe: Ran the app with `VA_BROWSER_USER_DATA_DIR` pointed at the real
+  Chrome profile and inspected `logs/voice_agent.log`.
+- Result: Browser Use logged `Launching new local browser ... user_data_dir=
+  "~/Library/Application Support/Google/Chrome"`, then `Browser operation timed
+  out`; only a Chrome crashpad handler remained.
+- Conclusion: C2 is supported.
+
+### Fix Direction
+
+Use a dedicated Chrome automation profile for Browser Use, not the normal Chrome
+profile directory. Launch Chrome with CDP against that dedicated profile, wait
+for `/json/version`, and connect Browser Use over CDP. The user can log in to
+LinkedIn once in that dedicated profile, and the cookies will persist without
+corrupting or locking the normal Chrome profile.
+
+#### Experiment 3
+- Hypothesis tested: C3
+- Expected if true: Chrome with a dedicated automation profile also fails to
+  expose CDP or render.
+- Expected if false: Chrome exposes `127.0.0.1:9222/json/version` with a
+  `webSocketDebuggerUrl`.
+- Change / probe: Launched Google Chrome with
+  `--remote-debugging-port=9222 --user-data-dir="$HOME/Library/Application Support/Cactus/ChromeCDP"`.
+- Result: `curl http://127.0.0.1:9222/json/version` returned Chrome 147 version
+  metadata and a `webSocketDebuggerUrl`.
+- Conclusion: C3 is false. A dedicated Chrome automation profile is the working
+  path.
+
+### Evidence-backed Root Cause
+
+The normal Chrome profile is not usable as a Browser Use automation target here.
+Chrome 147 did not bind the remote debugging port for the default profile, and
+Playwright timed out when asked to launch against
+`~/Library/Application Support/Google/Chrome`. A dedicated automation profile
+does expose CDP immediately.
+
+### Fix
+
+- Stop using the real default Chrome profile as Browser Use's
+  `user_data_dir`.
+- Use a dedicated Chrome profile at
+  `$HOME/Library/Application Support/Cactus/ChromeCDP`.
+- Connect Browser Use through `VA_BROWSER_CDP_URL=http://127.0.0.1:9222`.
+
+### Verification
+
+- Dedicated Chrome CDP probe: `curl http://127.0.0.1:9222/json/version`
+  returned Chrome 147 metadata and `webSocketDebuggerUrl`.
+- App restart: `VA_BROWSER_CDP_URL=http://127.0.0.1:9222 cactus/venv/bin/python -m voice_agent.main --ui webview`
+  logged `Browser Use will connect over CDP` and emitted `voice_ready`.
+- Browser Use smoke through the app: typed `/wake` command for `https://example.com`
+  connected over CDP, navigated successfully, extracted `Example Domain`, and
+  reached `AGENT_DONE`.
