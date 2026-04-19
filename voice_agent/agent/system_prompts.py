@@ -19,6 +19,9 @@ Rules:
   content/messages, first open the app if needed, then call read_visible_screen.
 - Only use desktop_native_app once an app is already open and you need to click or type inside it,
   or when no other tool can accomplish the task.
+- When a tool result contains concrete details, include those details directly in your answer.
+  Do not say the result was saved, attached, or available for review unless you also provide
+  the actual details.
 - If no tool fits, answer conversationally in one or two short sentences.
 - Respond in the language the user spoke.
 """

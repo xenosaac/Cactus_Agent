@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import re
 import time as _time
 from typing import TYPE_CHECKING, Any
 
@@ -25,6 +26,11 @@ if TYPE_CHECKING:
     from voice_agent.config import Settings
 
 log = logging.getLogger(__name__)
+
+_VAGUE_BROWSER_RESULT_RE = re.compile(
+    r"\b(saved|attached|available for review|details have been saved|results\.md)\b",
+    re.IGNORECASE,
+)
 
 
 class _Msg:
@@ -89,6 +95,8 @@ class AgentOrchestrator:
         ]
         tools_json = self._router.manifest_json()
         last_step_idx = 0
+        last_tool_name = ""
+        last_tool_result: ToolResult | None = None
 
         for step in range(1, self._settings.max_agent_steps + 1):
             last_step_idx = step
@@ -139,6 +147,9 @@ class AgentOrchestrator:
                     tc_name, {k: str(v)[:50] for k, v in tc_args.items()},
                 )
                 result: ToolResult = await self._router.dispatch(tc_name, tc_args)
+                if result.ok:
+                    last_tool_name = tc_name
+                    last_tool_result = result
                 log.info(
                     "dispatch END tool=%s ok=%s duration_ms=%.1f content_preview=%r",
                     tc_name, result.ok, (_time.perf_counter() - d0) * 1000,
@@ -186,6 +197,11 @@ class AgentOrchestrator:
             final_text = getattr(completion, "completion", "")
             if not isinstance(final_text, str):
                 final_text = str(final_text)
+            final_text = self._repair_vague_browser_result(
+                final_text=final_text,
+                last_tool_name=last_tool_name,
+                last_tool_result=last_tool_result,
+            )
             await self._bus.publish(AgentEvent(
                 type=EventType.AGENT_DONE,
                 success=True,
@@ -212,3 +228,21 @@ class AgentOrchestrator:
             return name
         short = ", ".join(f"{k}={str(v)[:30]}" for k, v in list(args.items())[:2])
         return f"{name}({short})"[:120]
+
+    @staticmethod
+    def _repair_vague_browser_result(
+        *,
+        final_text: str,
+        last_tool_name: str,
+        last_tool_result: ToolResult | None,
+    ) -> str:
+        """Prefer concrete Browser Use output over "saved for review" replies."""
+        if last_tool_name != "web_navigate" or last_tool_result is None:
+            return final_text
+        if not last_tool_result.ok or not _VAGUE_BROWSER_RESULT_RE.search(final_text):
+            return final_text
+        content = last_tool_result.content.strip()
+        if not content:
+            return final_text
+        log.info("replacing vague browser final answer with tool content")
+        return content[:2000]

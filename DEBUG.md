@@ -290,3 +290,96 @@ B1, B3, and B4 are supported. This is not primarily a browser launch failure. Th
 - Focused regression: `cactus/venv/bin/python -m pytest tests/test_gemini_client.py tests/test_browser_use_adapter.py -q` -> 5 passed.
 - Focused Ruff on touched Browser/UI files -> all checks passed.
 - Full non-eval regression: `cactus/venv/bin/python -m pytest tests/ -q --ignore=tests/evals` -> 109 passed.
+
+## Browser Result Display Follow-up
+
+### Problem
+
+Browser Use can complete a web task and write concrete findings to `results.md`,
+but the user-facing final answer only says the details were saved for review.
+The native UI has no visible place to open that saved file, so the result appears
+missing even though Browser Use did the work.
+
+### Hypotheses
+
+- R1: Browser Use returns only the final "saved to file" sentence to the adapter,
+  while the real user-facing data lives in the Browser Use file system.
+- R2: The adapter truncates useful output before the planner can synthesize the
+  final response.
+- R3: The UI reducer prefers the short `summary` field over the full
+  `final_text`, clipping or replacing detailed final answers.
+- R4: Browser Use did not actually find the flight details.
+
+### Experiments
+
+#### Experiment 1
+- Hypothesis tested: R4
+- Expected if true: The Browser Use `results.md` file is absent or contains no
+  concrete flight details.
+- Expected if false: The file contains the actual flight result.
+- Change / probe: Read the Browser Use result file from the user's run.
+- Result: `results.md` contains Frontier, `$124`, 1 stop via ONT, 3h 44m,
+  departing 9:18 am and arriving 1:02 pm.
+- Conclusion: R4 is false; Browser Use found the answer.
+
+#### Experiment 2
+- Hypothesis tested: R1
+- Expected if true: Browser Use exposes a per-agent file system with
+  `browseruse_agent_data/results.md`, and `final_result()` may only reference
+  that file.
+- Expected if false: There is no stable file-system path to read from the
+  adapter.
+- Change / probe: Inspected Browser Use `Agent` and `AgentHistoryList`.
+- Result: `Agent` has `file_system_path`, and Browser Use creates
+  `browseruse_agent_data/results.md` under it. `AgentHistoryList` also exposes
+  `extracted_content()`.
+- Conclusion: R1 is supported.
+
+#### Experiment 3
+- Hypothesis tested: R3
+- Expected if true: `AGENT_DONE` rendering uses `summary` before `final_text`.
+- Expected if false: The UI already prefers full final text.
+- Change / probe: Inspected `voice_agent/ui/native/reducer.py`.
+- Result: `AGENT_DONE` sets `result=e.summary or e.final_text or "Done"`.
+- Conclusion: R3 is supported.
+
+### Fix Direction
+
+- Have `BrowserUseAdapter` read Browser Use result artifacts and extracted
+  content after `agent.run()`.
+- If the final Browser Use sentence only says details are attached/saved, replace
+  it with the artifact contents before returning `ToolResult`.
+- Increase successful Browser Use content enough for the planner to see concrete
+  results.
+- Tell the planner to include concrete tool details directly instead of saying
+  they were saved for review.
+- Make the native reducer prefer full `final_text` on `AGENT_DONE`.
+
+### Evidence-backed Root Cause
+
+Browser Use completed the flight task and wrote the real answer into its file
+system, but `BrowserUseAdapter` returned only the final pointer sentence to the
+outer planner. The planner then faithfully produced a vague final answer. The UI
+made this worse by preferring the clipped `summary` field over `final_text` for
+the done state.
+
+### Fix
+
+- `BrowserUseAdapter` now reads Browser Use `results.md` / `todo.md` artifacts
+  and `AgentHistoryList.extracted_content()` after `agent.run()`.
+- If Browser Use's final sentence only points at an attached/saved artifact, the
+  adapter returns the artifact content instead.
+- Successful Browser Use tool output now keeps up to 2000 characters instead of
+  truncating at 500.
+- The planner prompt now explicitly says to include concrete tool details
+  directly and not punt to saved/attached files.
+- The orchestrator replaces a vague Browser Use "saved for review" final answer
+  with the concrete Browser Use tool content as a deterministic guardrail.
+- The native reducer now prefers full `final_text` over the short `summary` on
+  `AGENT_DONE`.
+
+### Verification
+
+- Focused Ruff: `cactus/venv/bin/ruff check voice_agent/agent/browser_use_adapter.py voice_agent/agent/orchestrator.py voice_agent/agent/system_prompts.py voice_agent/ui/native/reducer.py tests/test_browser_use_adapter.py tests/test_orchestrator.py tests/test_native_reducer.py` -> all checks passed.
+- Focused regression: `cactus/venv/bin/python -m pytest tests/test_browser_use_adapter.py tests/test_orchestrator.py tests/test_native_reducer.py -q` -> 8 passed.
+- Full non-eval regression: `cactus/venv/bin/python -m pytest tests/ -q --ignore=tests/evals` -> 112 passed.

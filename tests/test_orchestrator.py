@@ -24,11 +24,24 @@ class _FakeTool:
         return ToolResult(ok=True, content=f"ran with {args}")
 
 
+class _BrowserTool:
+    name = "web_navigate"
+    description = "test browser tool"
+    schema: dict[str, Any] = {"type": "object", "properties": {}}
+
+    async def call(self, args: dict[str, Any]) -> ToolResult:
+        return ToolResult(
+            ok=True,
+            content="Cheapest Flight\n\nAirline: Frontier\nPrice: $124",
+        )
+
+
 class _OneShotPlanner:
     """Returns one tool_call then a final answer."""
 
-    def __init__(self, tool_name: str = "probe") -> None:
+    def __init__(self, tool_name: str = "probe", final: str = "all done") -> None:
         self._tool_name = tool_name
+        self._final = final
         self._turn_phase = 0
         self.reset_calls = 0
 
@@ -40,7 +53,7 @@ class _OneShotPlanner:
         if self._turn_phase == 1:
             tc = SimpleNamespace(name=self._tool_name, arguments={"x": 1})
             return SimpleNamespace(completion="", tool_calls=[tc])
-        return SimpleNamespace(completion="all done", tool_calls=[])
+        return SimpleNamespace(completion=self._final, tool_calls=[])
 
 
 async def _fake_say(*args, **kwargs) -> None:
@@ -108,6 +121,32 @@ async def test_legacy_cancel_intent_does_not_block_tool_execution() -> None:
         EventType.AGENT_DONE,
     ]
     assert _FakeTool.calls == [{"x": 1}]
+
+
+@pytest.mark.asyncio
+async def test_vague_browser_saved_reply_is_replaced_with_tool_content() -> None:
+    bus = EventBus()
+    received: list[AgentEvent] = []
+
+    async def cb(e: AgentEvent) -> None:
+        received.append(e)
+
+    bus.subscribe(cb)
+
+    router = ToolRouter([_BrowserTool()], timeout_s=2.0)
+    settings = Settings(mode=Mode.LOCAL, max_agent_steps=5)
+    planner = _OneShotPlanner(
+        tool_name="web_navigate",
+        final="The details have been saved for you to review.",
+    )
+    orch = AgentOrchestrator(settings, planner, router, bus)
+
+    with patch("voice_agent.agent.orchestrator.say", new=_fake_say):
+        await orch.run_turn("find flights")
+
+    done = [e for e in received if e.type == EventType.AGENT_DONE][0]
+    assert done.final_text == "Cheapest Flight\n\nAirline: Frontier\nPrice: $124"
+    assert "saved" not in (done.final_text or "").lower()
     assert not orch.awaiting_confirm()
 
 

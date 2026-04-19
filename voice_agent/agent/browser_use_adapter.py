@@ -8,12 +8,20 @@ our EventBus so the HUD sees sub-step progress ("Opening page", "Clicking link",
 from __future__ import annotations
 
 import logging
+import re
+from pathlib import Path
 from typing import Any
 
 from voice_agent.agent.tool_router import ToolResult
 from voice_agent.events import AgentEvent, EventBus, EventType
 
 log = logging.getLogger(__name__)
+
+_ARTIFACT_POINTER_RE = re.compile(
+    r"\b(attached|saved|review|results\.md|todo\.md)\b",
+    re.IGNORECASE,
+)
+_ARTIFACT_PATH_RE = re.compile(r"(/(?:[^ \n\r\t]+/)*(?:results|todo)\.md)")
 
 
 class BrowserUseAdapter:
@@ -23,7 +31,7 @@ class BrowserUseAdapter:
     description: str = (
         "Use for ANY web task: open URL, read a page, fill a form, click "
         "buttons, navigate a website. Input: `task` (natural-language goal). "
-        "This tool drives a real browser locally; no data leaves the machine."
+        "This tool drives a real browser locally."
     )
     schema: dict[str, Any] = {
         "type": "object",
@@ -204,4 +212,128 @@ class BrowserUseAdapter:
                 or getattr(result, "summary", None)
                 or str(result)
             )
-        return ToolResult(ok=True, content=str(summary)[:500])
+        content = self._display_content(agent=agent, result=result, summary=str(summary))
+        return ToolResult(ok=True, content=content[:2000])
+
+    def _display_content(self, *, agent: object, result: object, summary: str) -> str:
+        """Return the user-facing Browser Use result, not just file pointers."""
+        details = self._collect_artifact_text(agent=agent, result=result, summary=summary)
+        if not details:
+            return summary
+        if summary and not _ARTIFACT_POINTER_RE.search(summary):
+            return self._join_blocks([summary, details])
+        return details
+
+    def _collect_artifact_text(
+        self, *, agent: object, result: object, summary: str
+    ) -> str:
+        blocks: list[str] = []
+        blocks.extend(self._read_result_files(agent=agent, summary=summary))
+        blocks.extend(self._extracted_content(result))
+        return self._join_blocks(blocks)
+
+    def _read_result_files(self, *, agent: object, summary: str) -> list[str]:
+        texts: list[str] = []
+
+        fs = getattr(agent, "file_system", None)
+        get_file = getattr(fs, "get_file", None)
+        if callable(get_file):
+            for filename in ("results.md", "todo.md"):
+                try:
+                    file_obj = get_file(filename)
+                    read = getattr(file_obj, "read", None)
+                    text = read() if callable(read) else ""
+                except Exception:  # noqa: BLE001
+                    text = ""
+                if isinstance(text, str) and text.strip():
+                    texts.append(text)
+
+        paths = self._candidate_artifact_paths(agent=agent, summary=summary)
+        for path in paths:
+            try:
+                text = path.read_text(encoding="utf-8")
+            except Exception:  # noqa: BLE001
+                continue
+            if text.strip():
+                texts.append(text)
+
+        return texts
+
+    def _candidate_artifact_paths(
+        self, *, agent: object, summary: str
+    ) -> list[Path]:
+        paths: list[Path] = []
+        seen: set[Path] = set()
+
+        def add(path: Path) -> None:
+            try:
+                resolved = path.expanduser().resolve()
+            except Exception:  # noqa: BLE001
+                resolved = path.expanduser()
+            if resolved not in seen:
+                seen.add(resolved)
+                paths.append(resolved)
+
+        for match in _ARTIFACT_PATH_RE.finditer(summary or ""):
+            add(Path(match.group(1)))
+
+        roots: list[Path] = []
+        for obj in (agent, getattr(agent, "state", None), getattr(agent, "file_system", None)):
+            if obj is None:
+                continue
+            for attr in ("file_system_path", "base_dir", "data_dir"):
+                raw = getattr(obj, attr, None)
+                if raw:
+                    roots.append(Path(raw))
+
+        for root in roots:
+            for filename in ("results.md", "todo.md"):
+                add(root / "browseruse_agent_data" / filename)
+                add(root / filename)
+
+        return paths
+
+    def _extracted_content(self, result: object) -> list[str]:
+        try:
+            extracted = getattr(result, "extracted_content", None)
+            raw = extracted() if callable(extracted) else (extracted or [])
+        except Exception:  # noqa: BLE001
+            return []
+
+        if isinstance(raw, str):
+            items = [raw]
+        else:
+            try:
+                items = list(raw)
+            except TypeError:
+                items = []
+        return [item for item in items if isinstance(item, str) and item.strip()]
+
+    @staticmethod
+    def _join_blocks(blocks: list[str]) -> str:
+        out: list[str] = []
+        seen: set[str] = set()
+        for block in blocks:
+            clean = BrowserUseAdapter._clean_text(block)
+            if not clean or clean in seen:
+                continue
+            seen.add(clean)
+            out.append(clean)
+        return "\n\n".join(out)
+
+    @staticmethod
+    def _clean_text(text: str) -> str:
+        lines: list[str] = []
+        previous_blank = False
+        for raw_line in text.splitlines():
+            line = raw_line.strip()
+            if line.startswith("#"):
+                line = line.lstrip("#").strip()
+            if not line:
+                if not previous_blank and lines:
+                    lines.append("")
+                previous_blank = True
+                continue
+            lines.append(line)
+            previous_blank = False
+        return "\n".join(lines).strip()

@@ -180,7 +180,7 @@ def apply(prev: UIState, e: AgentEvent) -> UIState:
         return replace(
             prev,
             stage="done",
-            result=e.summary or e.final_text or "Done",
+            result=e.final_text or e.summary or "Done",
         )
 
     if t == EventType.AGENT_ERROR:
