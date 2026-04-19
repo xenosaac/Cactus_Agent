@@ -58,6 +58,13 @@ class Settings(BaseSettings):
     gemini_vision_thinking_level: str = "low"
     browser_model: str = "gemini-2.5-flash"
     browser_temperature: float = 0.2
+    browser_cdp_url: str | None = None
+    browser_pid: int | None = None
+    browser_user_data_dir: Path | None = None
+    browser_profile_directory: str = "Default"
+    browser_executable_path: Path | None = None
+    browser_channel: str | None = None
+    browser_keep_alive: bool = False
 
     # Voice layer
     wake_phrases: tuple[str, ...] = ("hey cactus", "okay cactus", "cactus,")

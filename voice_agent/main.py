@@ -319,6 +319,7 @@ async def _run_voice_stack(
     from contextlib import AsyncExitStack
 
     from cactus.python.src.cactus import cactus_destroy, cactus_init
+    from voice_agent.agent.browser_session_factory import create_browser_session
     from voice_agent.agent.browser_use_adapter import BrowserUseAdapter
     from voice_agent.agent.cactus_chat_model import CactusChatModel
     from voice_agent.agent.desktop_app_launcher import DesktopAppLauncher
@@ -404,8 +405,7 @@ async def _run_voice_stack(
             mcp_tools = []
 
         try:
-            from browser_use import Browser
-            browser = Browser()
+            browser = create_browser_session(settings)
         except Exception as exc:  # noqa: BLE001
             log.warning("Browser Use unavailable: %s", exc)
             browser = None

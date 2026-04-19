@@ -40,6 +40,31 @@ Hold Space to talk. Release Space to send the command.
 
 Local-only mode is not the supported path right now; Hybrid mode is the working path.
 
+## Browser Login
+
+Browser Use is Chromium/CDP based, so Safari is not supported for web automation.
+To reuse a logged-in Chrome session, launch Chrome with remote debugging before
+starting the agent:
+
+```bash
+open -na "Google Chrome" --args --remote-debugging-port=9222 --profile-directory="Default"
+VA_BROWSER_CDP_URL=http://127.0.0.1:9222 cactus/venv/bin/python -m voice_agent.main
+```
+
+If Chrome is already open, quit it first so the debugging port is actually
+attached to the profile you want. As an alternative, let Browser Use launch
+Chrome with a persistent profile directory:
+
+```bash
+VA_BROWSER_USER_DATA_DIR="$HOME/Library/Application Support/Google/Chrome" \
+VA_BROWSER_PROFILE_DIRECTORY="Default" \
+VA_BROWSER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+cactus/venv/bin/python -m voice_agent.main
+```
+
+Do not use the same Chrome profile directory in two running Chrome processes at
+the same time.
+
 ## Debug
 
 ```bash

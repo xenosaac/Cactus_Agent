@@ -40,3 +40,14 @@ def test_browser_model_defaults_to_stable_flash() -> None:
     assert s.gemini_model == "gemini-3-pro-preview"
     assert s.gemini_vision_model is None
     assert s.browser_model == "gemini-2.5-flash"
+
+
+def test_browser_profile_defaults() -> None:
+    s = Settings(mode=Mode.LOCAL)
+    assert s.browser_cdp_url is None
+    assert s.browser_pid is None
+    assert s.browser_user_data_dir is None
+    assert s.browser_profile_directory == "Default"
+    assert s.browser_executable_path is None
+    assert s.browser_channel is None
+    assert s.browser_keep_alive is False
