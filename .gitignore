@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg
+
+# Virtualenvs
+venv/
+.venv/
+env/
+
+# OAuth / secrets - never commit
+credentials.json
+gcp-oauth.keys.json
+token.json
+*.token
+.env
+.env.local
+
+# Cactus artifacts
+cactus/build/
+cactus/venv/
+cactus/weights/
+
+# Cactus runtime state
+.cactus/
+
+# HuggingFace cache (if ever mirrored into project)
+.cache/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Runtime artifacts
+*.log
+/tmp/demo-portal.html
+logs/
+
+# UI build artifacts (regenerated via voice_agent/ui/build.sh)
+voice_agent/ui/vendor/app.bundle.js
+voice_agent/ui/node_modules/
