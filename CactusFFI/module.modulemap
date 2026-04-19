@@ -1,0 +1,5 @@
+module CactusFFI [system] {
+    header "cactus_shim.h"
+    link "cactus"
+    export *
+}

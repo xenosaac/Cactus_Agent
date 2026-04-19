@@ -1,0 +1,523 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0800D20B2DCBA0DA097382FB /* TaskTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C4BB7817F380E3BD678AB /* TaskTabView.swift */; };
+		12DF0426431A8B1391C30EE1 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760535B951A721A578461A20 /* AppConfig.swift */; };
+		2025E1BF5868A6E7D5D240A3 /* VoiceAssistantState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87711ACAAF807C5B1C3664F /* VoiceAssistantState.swift */; };
+		37C04845CFDB09E544FB3AEF /* JarvisAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C21B68649A5069D7925B4E1 /* JarvisAppTests.swift */; };
+		42E45BE95859624359339A50 /* LiveTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34247311DF6AA0AC52A8D345 /* LiveTranscriptionService.swift */; };
+		5B669429DC33F8069C75C851 /* CactusTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E61415E7CD4C589A5265F44 /* CactusTranscriptionService.swift */; };
+		5E370F4CD21E0A9D4B841207 /* SpeechFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8875DFF7EADC67C31EE927E3 /* SpeechFeedbackService.swift */; };
+		9DEB35EB85F757308F3BAF49 /* ControlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBCBBA6CA762B8042942A52 /* ControlPanelView.swift */; };
+		B300AC75A115B4C061ADCF64 /* TaskParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2880958ABCECE0356D02DD3 /* TaskParsingService.swift */; };
+		B62B1B0035FA81BB886CCE70 /* TaskMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = E230C26C2DF30A2938E54D22 /* TaskMetadata.swift */; };
+		BD27AE6C804126B48009F61A /* AudioCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1019AE7121717142506B48B /* AudioCaptureService.swift */; };
+		BDEAFD6BCFB44B698E545159 /* VoiceAssistantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C7A4EEC32E8E4A8F2CBDA /* VoiceAssistantController.swift */; };
+		CB3555FEF3F2E54958A4CAC1 /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFFFDF6B007B008DBC4A6C /* OverlayWindowController.swift */; };
+		E621474071C13DC6566AF13C /* AssistantBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13F12A9FC44A15354F0D0E3 /* AssistantBubbleView.swift */; };
+		F7D74C5300C8A08A79E26318 /* JarvisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B603E18A3AF3085EBC8CD854 /* JarvisApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		05992E79D51500EE5E0BDBBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33E99CF1F5349721FD0BB40B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 461D90920FCD8CAF83348871;
+			remoteInfo = Jarvis;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E61415E7CD4C589A5265F44 /* CactusTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CactusTranscriptionService.swift; sourceTree = "<group>"; };
+		1EBFFFDF6B007B008DBC4A6C /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
+		1F0D16F2437E4CFBBB842AD2 /* JarvisTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JarvisTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34247311DF6AA0AC52A8D345 /* LiveTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTranscriptionService.swift; sourceTree = "<group>"; };
+		5C21B68649A5069D7925B4E1 /* JarvisAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarvisAppTests.swift; sourceTree = "<group>"; };
+		618C7A4EEC32E8E4A8F2CBDA /* VoiceAssistantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAssistantController.swift; sourceTree = "<group>"; };
+		760535B951A721A578461A20 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		8875DFF7EADC67C31EE927E3 /* SpeechFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechFeedbackService.swift; sourceTree = "<group>"; };
+		9CBCBBA6CA762B8042942A52 /* ControlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelView.swift; sourceTree = "<group>"; };
+		A2880958ABCECE0356D02DD3 /* TaskParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskParsingService.swift; sourceTree = "<group>"; };
+		B1019AE7121717142506B48B /* AudioCaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureService.swift; sourceTree = "<group>"; };
+		B13F12A9FC44A15354F0D0E3 /* AssistantBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantBubbleView.swift; sourceTree = "<group>"; };
+		B603E18A3AF3085EBC8CD854 /* JarvisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarvisApp.swift; sourceTree = "<group>"; };
+		C62C4BB7817F380E3BD678AB /* TaskTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTabView.swift; sourceTree = "<group>"; };
+		E230C26C2DF30A2938E54D22 /* TaskMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMetadata.swift; sourceTree = "<group>"; };
+		F2EA89B09E63D9954B6EA5A4 /* Jarvis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jarvis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F87711ACAAF807C5B1C3664F /* VoiceAssistantState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAssistantState.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		14A32A1E0472C717E7394CF3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				760535B951A721A578461A20 /* AppConfig.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		2C50696466FE7E52CA010D18 /* JarvisApp */ = {
+			isa = PBXGroup;
+			children = (
+				C1561E2744850A5C8B41D818 /* App */,
+				E1AC04501AD8FEF1AD655C4A /* Models */,
+				D51B845AA93DC691D9D461E4 /* Services */,
+				3102AAFEAEBDEB8AB1CFB165 /* UI */,
+				14A32A1E0472C717E7394CF3 /* Utils */,
+			);
+			name = JarvisApp;
+			path = Sources/JarvisApp;
+			sourceTree = "<group>";
+		};
+		2DD304DE58E0A08AD70E9A13 /* JarvisAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				5C21B68649A5069D7925B4E1 /* JarvisAppTests.swift */,
+			);
+			name = JarvisAppTests;
+			path = Tests/JarvisAppTests;
+			sourceTree = "<group>";
+		};
+		3102AAFEAEBDEB8AB1CFB165 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B13F12A9FC44A15354F0D0E3 /* AssistantBubbleView.swift */,
+				9CBCBBA6CA762B8042942A52 /* ControlPanelView.swift */,
+				1EBFFFDF6B007B008DBC4A6C /* OverlayWindowController.swift */,
+				C62C4BB7817F380E3BD678AB /* TaskTabView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		7370B301BC3824D8E135198C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2EA89B09E63D9954B6EA5A4 /* Jarvis.app */,
+				1F0D16F2437E4CFBBB842AD2 /* JarvisTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC0DCAC9B7584481D8C65021 = {
+			isa = PBXGroup;
+			children = (
+				2C50696466FE7E52CA010D18 /* JarvisApp */,
+				2DD304DE58E0A08AD70E9A13 /* JarvisAppTests */,
+				7370B301BC3824D8E135198C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C1561E2744850A5C8B41D818 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B603E18A3AF3085EBC8CD854 /* JarvisApp.swift */,
+				618C7A4EEC32E8E4A8F2CBDA /* VoiceAssistantController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D51B845AA93DC691D9D461E4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B1019AE7121717142506B48B /* AudioCaptureService.swift */,
+				0E61415E7CD4C589A5265F44 /* CactusTranscriptionService.swift */,
+				34247311DF6AA0AC52A8D345 /* LiveTranscriptionService.swift */,
+				8875DFF7EADC67C31EE927E3 /* SpeechFeedbackService.swift */,
+				A2880958ABCECE0356D02DD3 /* TaskParsingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E1AC04501AD8FEF1AD655C4A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E230C26C2DF30A2938E54D22 /* TaskMetadata.swift */,
+				F87711ACAAF807C5B1C3664F /* VoiceAssistantState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3AAB4F4384EB0BCC0031814D /* JarvisTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 12CB9E77201E83C58028254D /* Build configuration list for PBXNativeTarget "JarvisTests" */;
+			buildPhases = (
+				DBC83D423CFCFB551AD84637 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				14FC6F0AB0D3761EEFECEB6C /* PBXTargetDependency */,
+			);
+			name = JarvisTests;
+			packageProductDependencies = (
+			);
+			productName = JarvisTests;
+			productReference = 1F0D16F2437E4CFBBB842AD2 /* JarvisTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		461D90920FCD8CAF83348871 /* Jarvis */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6D5E915E8E9BDF0BF748745 /* Build configuration list for PBXNativeTarget "Jarvis" */;
+			buildPhases = (
+				E0992BE4761F337F2AC5BF62 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Jarvis;
+			packageProductDependencies = (
+			);
+			productName = Jarvis;
+			productReference = F2EA89B09E63D9954B6EA5A4 /* Jarvis.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		33E99CF1F5349721FD0BB40B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3AAB4F4384EB0BCC0031814D = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					461D90920FCD8CAF83348871 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5FF39917AC552CB1A0BD9FBA /* Build configuration list for PBXProject "Jarvis" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BC0DCAC9B7584481D8C65021;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7370B301BC3824D8E135198C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				461D90920FCD8CAF83348871 /* Jarvis */,
+				3AAB4F4384EB0BCC0031814D /* JarvisTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DBC83D423CFCFB551AD84637 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C04845CFDB09E544FB3AEF /* JarvisAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0992BE4761F337F2AC5BF62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12DF0426431A8B1391C30EE1 /* AppConfig.swift in Sources */,
+				E621474071C13DC6566AF13C /* AssistantBubbleView.swift in Sources */,
+				BD27AE6C804126B48009F61A /* AudioCaptureService.swift in Sources */,
+				5B669429DC33F8069C75C851 /* CactusTranscriptionService.swift in Sources */,
+				9DEB35EB85F757308F3BAF49 /* ControlPanelView.swift in Sources */,
+				F7D74C5300C8A08A79E26318 /* JarvisApp.swift in Sources */,
+				42E45BE95859624359339A50 /* LiveTranscriptionService.swift in Sources */,
+				CB3555FEF3F2E54958A4CAC1 /* OverlayWindowController.swift in Sources */,
+				5E370F4CD21E0A9D4B841207 /* SpeechFeedbackService.swift in Sources */,
+				B62B1B0035FA81BB886CCE70 /* TaskMetadata.swift in Sources */,
+				B300AC75A115B4C061ADCF64 /* TaskParsingService.swift in Sources */,
+				0800D20B2DCBA0DA097382FB /* TaskTabView.swift in Sources */,
+				BDEAFD6BCFB44B698E545159 /* VoiceAssistantController.swift in Sources */,
+				2025E1BF5868A6E7D5D240A3 /* VoiceAssistantState.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		14FC6F0AB0D3761EEFECEB6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 461D90920FCD8CAF83348871 /* Jarvis */;
+			targetProxy = 05992E79D51500EE5E0BDBBE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		06169DA02795A8ED87F6F021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_MODULE_NAME = JarvisApp;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		33393218FABD004E027C9675 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jarvis.app/Contents/MacOS/Jarvis";
+			};
+			name = Release;
+		};
+		8A75D86FEE135E74011AB6D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Jarvis;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Jarvis listens for your voice commands after you say the wake word.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/opt/cactus/lib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/opt/cactus/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lcactus",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.voiceagentshack.jarvis;
+				PRODUCT_NAME = Jarvis;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_INCLUDE_PATHS = (
+					"$(SRCROOT)/CactusFFI",
+				);
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.1;
+			};
+			name = Debug;
+		};
+		B074564D6E75DAF220F34F34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jarvis.app/Contents/MacOS/Jarvis";
+			};
+			name = Debug;
+		};
+		B81D099211BB3784F907E95C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_MODULE_NAME = JarvisApp;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CA2EDC6435E5128E90920A00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Jarvis;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Jarvis listens for your voice commands after you say the wake word.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/opt/cactus/lib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/opt/cactus/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lcactus",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.voiceagentshack.jarvis;
+				PRODUCT_NAME = Jarvis;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INCLUDE_PATHS = (
+					"$(SRCROOT)/CactusFFI",
+				);
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		12CB9E77201E83C58028254D /* Build configuration list for PBXNativeTarget "JarvisTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B074564D6E75DAF220F34F34 /* Debug */,
+				33393218FABD004E027C9675 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5FF39917AC552CB1A0BD9FBA /* Build configuration list for PBXProject "Jarvis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A75D86FEE135E74011AB6D2 /* Debug */,
+				CA2EDC6435E5128E90920A00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B6D5E915E8E9BDF0BF748745 /* Build configuration list for PBXNativeTarget "Jarvis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06169DA02795A8ED87F6F021 /* Debug */,
+				B81D099211BB3784F907E95C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 33E99CF1F5349721FD0BB40B /* Project object */;
+}

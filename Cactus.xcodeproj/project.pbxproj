@@ -1,0 +1,529 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		049FA21C0406ACFFB8B9AA93 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A905044F343EBCFDFAEB3 /* AppEnvironment.swift */; };
+		13B19256D304C1F52EAC84F0 /* VoiceAssistantState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2788DF85B57C6FBFDBA230 /* VoiceAssistantState.swift */; };
+		15AE66179D1C654FB7987AEC /* ControlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FD7D4E498A4572A14839E1 /* ControlPanelView.swift */; };
+		1CEA42DEB8E8C3D565F9E215 /* CactusTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419B5E6E59C9558E64AEA503 /* CactusTranscriptionService.swift */; };
+		30D51E3CB27C96C52992C822 /* VoiceAssistantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29D8FBB92FFB0349388F711 /* VoiceAssistantController.swift */; };
+		3BA8601E9301AB328F83049C /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC322B16DF2051A22DAA95B8 /* OverlayWindowController.swift */; };
+		8371F9B6E700400EDF239261 /* AudioCaptureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A144A657607F312688843973 /* AudioCaptureService.swift */; };
+		A0839E54536B0F5B55C73C15 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94FF16C2A22E1026EBE2162 /* AppConfig.swift */; };
+		A7FD507FEC9D872CDF5AF7D2 /* AssistantBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B6647EA52A3B4C672EF4AA /* AssistantBubbleView.swift */; };
+		ACF6B620013CE62A90300C5D /* TaskParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBBB32324C5134F0F425FF5 /* TaskParsingService.swift */; };
+		B10D7C8E7C29088F2F541194 /* LiveTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C0BB29B93588E3AAECBB67 /* LiveTranscriptionService.swift */; };
+		B50FD0D1E890484A600FFD2D /* SpeechFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F0EF28D92579EAE33F5DF7 /* SpeechFeedbackService.swift */; };
+		D4E5391B745AFC0B1E10123C /* TaskMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B586E55B2EB5C6B3D9B8D756 /* TaskMetadata.swift */; };
+		D8E209512694C0B28262DF63 /* TaskTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ADB20989240664EBF5AE9F /* TaskTabView.swift */; };
+		F3BAC4447187ED93B297328E /* JarvisAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963DD69F22CBBD9FBEB7B070 /* JarvisAppTests.swift */; };
+		F6C268B539D2D69B4D9F8CB6 /* JarvisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBBDCF3C7FE601006980B45 /* JarvisApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2A9B2A5E1D2E8A3C75D99BFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F8CE65CEC632DFFD1CA71DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6177486FC85B6F2502F32E6F;
+			remoteInfo = Cactus;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2F2788DF85B57C6FBFDBA230 /* VoiceAssistantState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAssistantState.swift; sourceTree = "<group>"; };
+		39FD7D4E498A4572A14839E1 /* ControlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelView.swift; sourceTree = "<group>"; };
+		419B5E6E59C9558E64AEA503 /* CactusTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CactusTranscriptionService.swift; sourceTree = "<group>"; };
+		49F0EF28D92579EAE33F5DF7 /* SpeechFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechFeedbackService.swift; sourceTree = "<group>"; };
+		5DBBB32324C5134F0F425FF5 /* TaskParsingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskParsingService.swift; sourceTree = "<group>"; };
+		64B6647EA52A3B4C672EF4AA /* AssistantBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantBubbleView.swift; sourceTree = "<group>"; };
+		6AB278907F58174FB5402DCF /* Cactus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cactus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		711A905044F343EBCFDFAEB3 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		963DD69F22CBBD9FBEB7B070 /* JarvisAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarvisAppTests.swift; sourceTree = "<group>"; };
+		96C0BB29B93588E3AAECBB67 /* LiveTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTranscriptionService.swift; sourceTree = "<group>"; };
+		A144A657607F312688843973 /* AudioCaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureService.swift; sourceTree = "<group>"; };
+		A94FF16C2A22E1026EBE2162 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		AE1D32EE41E6EC054C8078DB /* CactusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CactusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B586E55B2EB5C6B3D9B8D756 /* TaskMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMetadata.swift; sourceTree = "<group>"; };
+		CBBBDCF3C7FE601006980B45 /* JarvisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JarvisApp.swift; sourceTree = "<group>"; };
+		CC322B16DF2051A22DAA95B8 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
+		F29D8FBB92FFB0349388F711 /* VoiceAssistantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAssistantController.swift; sourceTree = "<group>"; };
+		F2ADB20989240664EBF5AE9F /* TaskTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTabView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0FF9AC7F849B668B08DC529E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6AB278907F58174FB5402DCF /* Cactus.app */,
+				AE1D32EE41E6EC054C8078DB /* CactusTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A448BDBA132CAC6B9359AC2 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A94FF16C2A22E1026EBE2162 /* AppConfig.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		56D8B6EDED6DC75F66463D0E /* JarvisAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				963DD69F22CBBD9FBEB7B070 /* JarvisAppTests.swift */,
+			);
+			name = JarvisAppTests;
+			path = Tests/JarvisAppTests;
+			sourceTree = "<group>";
+		};
+		5AB40FB5D8CBD870519C96E5 = {
+			isa = PBXGroup;
+			children = (
+				815B02B16210F69C3A4A1291 /* JarvisApp */,
+				56D8B6EDED6DC75F66463D0E /* JarvisAppTests */,
+				0FF9AC7F849B668B08DC529E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		815B02B16210F69C3A4A1291 /* JarvisApp */ = {
+			isa = PBXGroup;
+			children = (
+				F673D6166BBDFFCAEF6171A1 /* App */,
+				B98DF3631207892857BAEB1D /* Models */,
+				D998A306D7325F893FA54001 /* Services */,
+				D5CE6CD352409E04EF1DCC6A /* UI */,
+				2A448BDBA132CAC6B9359AC2 /* Utils */,
+			);
+			name = JarvisApp;
+			path = Sources/JarvisApp;
+			sourceTree = "<group>";
+		};
+		B98DF3631207892857BAEB1D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B586E55B2EB5C6B3D9B8D756 /* TaskMetadata.swift */,
+				2F2788DF85B57C6FBFDBA230 /* VoiceAssistantState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D5CE6CD352409E04EF1DCC6A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				64B6647EA52A3B4C672EF4AA /* AssistantBubbleView.swift */,
+				39FD7D4E498A4572A14839E1 /* ControlPanelView.swift */,
+				CC322B16DF2051A22DAA95B8 /* OverlayWindowController.swift */,
+				F2ADB20989240664EBF5AE9F /* TaskTabView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D998A306D7325F893FA54001 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				711A905044F343EBCFDFAEB3 /* AppEnvironment.swift */,
+				A144A657607F312688843973 /* AudioCaptureService.swift */,
+				419B5E6E59C9558E64AEA503 /* CactusTranscriptionService.swift */,
+				96C0BB29B93588E3AAECBB67 /* LiveTranscriptionService.swift */,
+				49F0EF28D92579EAE33F5DF7 /* SpeechFeedbackService.swift */,
+				5DBBB32324C5134F0F425FF5 /* TaskParsingService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F673D6166BBDFFCAEF6171A1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				CBBBDCF3C7FE601006980B45 /* JarvisApp.swift */,
+				F29D8FBB92FFB0349388F711 /* VoiceAssistantController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		061F3F8C75F9B6D042D12DD3 /* CactusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCF6F5533D6C73BE5ECCBFAA /* Build configuration list for PBXNativeTarget "CactusTests" */;
+			buildPhases = (
+				5A5A32D81390BDD24A9EE698 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0ECAB5C82F50642AFFAD90D0 /* PBXTargetDependency */,
+			);
+			name = CactusTests;
+			packageProductDependencies = (
+			);
+			productName = CactusTests;
+			productReference = AE1D32EE41E6EC054C8078DB /* CactusTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6177486FC85B6F2502F32E6F /* Cactus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83A8C322CF96C7A300580E78 /* Build configuration list for PBXNativeTarget "Cactus" */;
+			buildPhases = (
+				8723618C27AFFA98F57DC774 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Cactus;
+			packageProductDependencies = (
+			);
+			productName = Cactus;
+			productReference = 6AB278907F58174FB5402DCF /* Cactus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F8CE65CEC632DFFD1CA71DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					061F3F8C75F9B6D042D12DD3 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					6177486FC85B6F2502F32E6F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8B1DDED2EA4907A467B8EAE5 /* Build configuration list for PBXProject "Cactus" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 5AB40FB5D8CBD870519C96E5;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0FF9AC7F849B668B08DC529E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6177486FC85B6F2502F32E6F /* Cactus */,
+				061F3F8C75F9B6D042D12DD3 /* CactusTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5A5A32D81390BDD24A9EE698 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3BAC4447187ED93B297328E /* JarvisAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8723618C27AFFA98F57DC774 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0839E54536B0F5B55C73C15 /* AppConfig.swift in Sources */,
+				049FA21C0406ACFFB8B9AA93 /* AppEnvironment.swift in Sources */,
+				A7FD507FEC9D872CDF5AF7D2 /* AssistantBubbleView.swift in Sources */,
+				8371F9B6E700400EDF239261 /* AudioCaptureService.swift in Sources */,
+				1CEA42DEB8E8C3D565F9E215 /* CactusTranscriptionService.swift in Sources */,
+				15AE66179D1C654FB7987AEC /* ControlPanelView.swift in Sources */,
+				F6C268B539D2D69B4D9F8CB6 /* JarvisApp.swift in Sources */,
+				B10D7C8E7C29088F2F541194 /* LiveTranscriptionService.swift in Sources */,
+				3BA8601E9301AB328F83049C /* OverlayWindowController.swift in Sources */,
+				B50FD0D1E890484A600FFD2D /* SpeechFeedbackService.swift in Sources */,
+				D4E5391B745AFC0B1E10123C /* TaskMetadata.swift in Sources */,
+				ACF6B620013CE62A90300C5D /* TaskParsingService.swift in Sources */,
+				D8E209512694C0B28262DF63 /* TaskTabView.swift in Sources */,
+				30D51E3CB27C96C52992C822 /* VoiceAssistantController.swift in Sources */,
+				13B19256D304C1F52EAC84F0 /* VoiceAssistantState.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0ECAB5C82F50642AFFAD90D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6177486FC85B6F2502F32E6F /* Cactus */;
+			targetProxy = 2A9B2A5E1D2E8A3C75D99BFC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		17BAA19D3EC4CA685C9EBB8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cactus.app/Contents/MacOS/Cactus";
+			};
+			name = Debug;
+		};
+		1A8334B9DF097066630A90B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Cactus;
+				INFOPLIST_KEY_ELEVENLABS_ENV_PATH = "$(SRCROOT)/.env";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cactus listens for your voice commands after you say the wake word.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/opt/cactus/lib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/opt/cactus/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lcactus",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.voiceagentshack.cactus;
+				PRODUCT_NAME = Cactus;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_INCLUDE_PATHS = (
+					"$(SRCROOT)/CactusFFI",
+				);
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.1;
+			};
+			name = Debug;
+		};
+		937DAB614F2D889880600D6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Cactus;
+				INFOPLIST_KEY_ELEVENLABS_ENV_PATH = "$(SRCROOT)/.env";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cactus listens for your voice commands after you say the wake word.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/opt/cactus/lib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/opt/cactus/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lcactus",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.voiceagentshack.cactus;
+				PRODUCT_NAME = Cactus;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INCLUDE_PATHS = (
+					"$(SRCROOT)/CactusFFI",
+				);
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.1;
+			};
+			name = Release;
+		};
+		C69EB67462E948FCEF79BC74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cactus.app/Contents/MacOS/Cactus";
+			};
+			name = Release;
+		};
+		E35EF2BD099211DED2ED7171 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_MODULE_NAME = CactusApp;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F17DFC9C396DECD8ECDF677D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_MODULE_NAME = CactusApp;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		83A8C322CF96C7A300580E78 /* Build configuration list for PBXNativeTarget "Cactus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F17DFC9C396DECD8ECDF677D /* Debug */,
+				E35EF2BD099211DED2ED7171 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8B1DDED2EA4907A467B8EAE5 /* Build configuration list for PBXProject "Cactus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A8334B9DF097066630A90B5 /* Debug */,
+				937DAB614F2D889880600D6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FCF6F5533D6C73BE5ECCBFAA /* Build configuration list for PBXNativeTarget "CactusTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17BAA19D3EC4CA685C9EBB8B /* Debug */,
+				C69EB67462E948FCEF79BC74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4F8CE65CEC632DFFD1CA71DE /* Project object */;
+}

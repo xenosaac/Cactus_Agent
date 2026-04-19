@@ -1,0 +1,48 @@
+name: Cactus
+options:
+  minimumXcodeGenVersion: 2.38.0
+settings:
+  base:
+    PRODUCT_NAME: Cactus
+    PRODUCT_BUNDLE_IDENTIFIER: com.voiceagentshack.cactus
+    MACOSX_DEPLOYMENT_TARGET: 14.0
+    SWIFT_VERSION: 5.10
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+    GENERATE_INFOPLIST_FILE: YES
+    SWIFT_INCLUDE_PATHS:
+      - $(SRCROOT)/CactusFFI
+    LIBRARY_SEARCH_PATHS:
+      - /opt/homebrew/opt/cactus/lib
+    OTHER_LDFLAGS:
+      - $(inherited)
+      - -lcactus
+    LD_RUNPATH_SEARCH_PATHS:
+      - $(inherited)
+      - /opt/homebrew/opt/cactus/lib
+    INFOPLIST_KEY_CFBundleDisplayName: Cactus
+    INFOPLIST_KEY_ELEVENLABS_ENV_PATH: $(SRCROOT)/.env
+    INFOPLIST_KEY_NSMicrophoneUsageDescription: Cactus listens for your voice commands after you say the wake word.
+    INFOPLIST_KEY_LSUIElement: YES
+targets:
+  Cactus:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/JarvisApp
+    settings:
+      base:
+        PRODUCT_MODULE_NAME: CactusApp
+        INFOPLIST_KEY_NSPrincipalClass: NSApplication
+    scheme:
+      testTargets:
+        - CactusTests
+  CactusTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/JarvisAppTests
+    dependencies:
+      - target: Cactus
