@@ -7,10 +7,15 @@ our EventBus so the HUD sees sub-step progress ("Opening page", "Clicking link",
 """
 from __future__ import annotations
 
+import json
 import logging
 import re
+from json import JSONDecodeError
 from pathlib import Path
 from typing import Any
+from urllib.error import URLError
+from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 from voice_agent.agent.tool_router import ToolResult
 from voice_agent.events import AgentEvent, EventBus, EventType
@@ -22,6 +27,12 @@ _ARTIFACT_POINTER_RE = re.compile(
     re.IGNORECASE,
 )
 _ARTIFACT_PATH_RE = re.compile(r"(/(?:[^ \n\r\t]+/)*(?:results|todo)\.md)")
+_CDP_INTERNAL_PAGE_PREFIXES = ("chrome://omnibox-popup",)
+_CDP_UNUSABLE_PAGE_PREFIXES = (
+    "chrome://",
+    "chrome-extension://",
+    "devtools://",
+)
 
 
 class BrowserUseAdapter:
@@ -57,7 +68,7 @@ class BrowserUseAdapter:
     async def call(self, args: dict[str, Any]) -> ToolResult:
         # Lazy import so agent tests that don't exercise BU can run without it.
         try:
-            from browser_use import Agent
+            from browser_use import Agent, BrowserSession
         except Exception as exc:  # noqa: BLE001
             log.exception("browser_use import failed: %s", exc)
             return ToolResult(
@@ -139,11 +150,25 @@ class BrowserUseAdapter:
                 )
             )
 
+        browser_kwargs: dict[str, object]
+        if isinstance(self._browser, BrowserSession):
+            try:
+                await self._prepare_browser_session(self._browser)
+            except Exception as exc:  # noqa: BLE001
+                return ToolResult(
+                    ok=False,
+                    content=f"Could not prepare Browser Use session: {exc}",
+                    error="browser_use_session",
+                )
+            browser_kwargs = {"browser_session": self._browser}
+        else:
+            browser_kwargs = {"browser": self._browser}
+
         try:
             agent = Agent(
                 task=task,
                 llm=self._llm,
-                browser=self._browser,
+                **browser_kwargs,
                 use_vision=False,
                 enable_memory=False,
             )
@@ -192,15 +217,26 @@ class BrowserUseAdapter:
         except Exception:  # noqa: BLE001
             done = False
 
-        if has_errors and not summary:
+        nonempty_errors = [e for e in errors if e]
+        if (has_errors or nonempty_errors) and not summary:
             error_text = next((e for e in errors if e), "browser agent failed")
             return ToolResult(
                 ok=False,
                 content=f"Browser Use failed: {error_text[:500]}",
                 error="browser_use_failed",
-                structured={"errors": [e for e in errors if e][:5]},
+                structured={"errors": nonempty_errors[:5]},
             )
         if not done and not summary:
+            if nonempty_errors:
+                return ToolResult(
+                    ok=False,
+                    content=(
+                        "Browser Use stopped without completing the task: "
+                        f"{nonempty_errors[0][:500]}"
+                    ),
+                    error="browser_use_incomplete",
+                    structured={"errors": nonempty_errors[:5]},
+                )
             return ToolResult(
                 ok=False,
                 content="Browser Use stopped without completing the task",
@@ -214,6 +250,110 @@ class BrowserUseAdapter:
             )
         content = self._display_content(agent=agent, result=result, summary=str(summary))
         return ToolResult(ok=True, content=content[:2000])
+
+    async def _prepare_browser_session(self, browser_session: object) -> None:
+        """Normalize reusable browser sessions before Browser Use copies them."""
+        cdp_url = getattr(browser_session, "cdp_url", None)
+        if isinstance(cdp_url, str) and cdp_url:
+            self._prepare_cdp_targets(cdp_url)
+
+        profile = getattr(browser_session, "browser_profile", None)
+        keep_alive = getattr(profile, "keep_alive", None)
+        browser_pid = getattr(browser_session, "browser_pid", None)
+        external_browser = bool(cdp_url or browser_pid)
+        initialized = bool(getattr(browser_session, "initialized", False))
+        if (external_browser or keep_alive is True) and not initialized:
+            start = getattr(browser_session, "start", None)
+            if callable(start):
+                await start()
+                initialized = True
+        if initialized:
+            await self._select_usable_browser_page(browser_session)
+
+    def _prepare_cdp_targets(self, cdp_url: str) -> None:
+        """Close Chrome UI-only CDP targets and ensure a normal page exists."""
+        targets = self._read_cdp_targets(cdp_url)
+        if targets is None:
+            return
+
+        for target in targets:
+            url = str(target.get("url") or "")
+            target_id = str(target.get("id") or "")
+            target_type = str(target.get("type") or "")
+            if (
+                target_id
+                and target_type == "page"
+                and url.startswith(_CDP_INTERNAL_PAGE_PREFIXES)
+            ):
+                self._cdp_request(cdp_url, f"/json/close/{target_id}")
+
+        targets = self._read_cdp_targets(cdp_url) or []
+        if not any(self._target_is_usable_page(target) for target in targets):
+            encoded_url = quote("about:blank", safe="")
+            self._cdp_request(cdp_url, f"/json/new?{encoded_url}", method="PUT")
+
+    def _read_cdp_targets(self, cdp_url: str) -> list[dict[str, Any]] | None:
+        raw = self._cdp_request(cdp_url, "/json/list")
+        if raw is None:
+            return None
+        try:
+            data = raw.decode("utf-8")
+            parsed = json.loads(data)
+        except (UnicodeDecodeError, JSONDecodeError):
+            return None
+        if not isinstance(parsed, list):
+            return None
+        return [item for item in parsed if isinstance(item, dict)]
+
+    def _cdp_request(
+        self, cdp_url: str, path: str, *, method: str = "GET"
+    ) -> bytes | None:
+        url = f"{cdp_url.rstrip('/')}{path}"
+        request = Request(url, method=method)
+        try:
+            with urlopen(request, timeout=2.0) as response:  # noqa: S310
+                return response.read()
+        except URLError as exc:
+            if method == "PUT":
+                return self._cdp_request(cdp_url, path, method="GET")
+            log.debug("CDP preflight request failed url=%s error=%s", url, exc)
+            return None
+        except TimeoutError:
+            log.debug("CDP preflight request timed out url=%s", url)
+            return None
+
+    def _target_is_usable_page(self, target: dict[str, Any]) -> bool:
+        if str(target.get("type") or "") != "page":
+            return False
+        return self._is_usable_page_url(str(target.get("url") or ""))
+
+    async def _select_usable_browser_page(self, browser_session: object) -> None:
+        context = getattr(browser_session, "browser_context", None)
+        pages = list(getattr(context, "pages", []) or [])
+        for page in pages:
+            if self._is_usable_page_url(str(getattr(page, "url", "") or "")):
+                browser_session.agent_current_page = page
+                browser_session.human_current_page = page
+                bring_to_front = getattr(page, "bring_to_front", None)
+                if callable(bring_to_front):
+                    await bring_to_front()
+                return
+
+        new_page = getattr(context, "new_page", None)
+        if callable(new_page):
+            page = await new_page()
+            goto = getattr(page, "goto", None)
+            if callable(goto):
+                await goto("about:blank")
+            browser_session.agent_current_page = page
+            browser_session.human_current_page = page
+
+    def _is_usable_page_url(self, url: str) -> bool:
+        if not url:
+            return False
+        if url.startswith("about:blank"):
+            return True
+        return not url.startswith(_CDP_UNUSABLE_PAGE_PREFIXES)
 
     def _display_content(self, *, agent: object, result: object, summary: str) -> str:
         """Return the user-facing Browser Use result, not just file pointers."""

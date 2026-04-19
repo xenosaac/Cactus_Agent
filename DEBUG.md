@@ -478,3 +478,131 @@ does expose CDP immediately.
 - Browser Use smoke through the app: typed `/wake` command for `https://example.com`
   connected over CDP, navigated successfully, extracted `Example Domain`, and
   reached `AGENT_DONE`.
+
+## CDP Repeat Failure / Gmail Follow-up
+
+### Problem
+
+After the first successful dedicated-Chrome Browser Use smoke, later browser
+tasks failed immediately. The UI reported that the web browser kept stopping
+unexpectedly. The user also reported that Gmail does not work.
+
+### Symptoms
+
+- Browser Use fails three consecutive times before doing page work.
+- The Playwright error is
+  `BrowserType.connect_over_cdp: Protocol error (Browser.setDownloadBehavior): Browser context management is not supported`.
+- A previous successful Browser Use run logged
+  `Closing cdp_url=http://127.0.0.1:9222 browser context`, even though the Chrome
+  process was user-launched and should remain reusable.
+- Gmail tools register successfully, but a live `gmail.search_emails` call
+  returned `Error: unauthorized_client`.
+
+### Hypotheses
+
+- P1: The CDP BrowserSession is created with `keep_alive=False`, so Browser Use
+  closes the attached Chrome context after a run and leaves later CDP attaches in
+  a broken state.
+- P2: Passing the session through Browser Use's legacy `browser=` argument causes
+  the agent to treat the session as owned and close it.
+- P3: Chrome itself crashed or stopped exposing the CDP endpoint.
+- G1: Gmail MCP is registered, but OAuth credentials are invalid for this account
+  or app, producing `unauthorized_client`.
+
+### Experiments
+
+#### Experiment 1
+- Hypothesis tested: P1
+- Expected if true: Browser Use package code only auto-sets CDP keep-alive when
+  `browser_profile.keep_alive is None`; our factory sets it to `False`, so the
+  auto-protection is bypassed.
+- Expected if false: Browser Use should override `False` to `True` for CDP
+  sessions.
+- Change / probe: Inspected `browser_use/browser/session.py`.
+- Result: `_set_browser_keep_alive()` only mutates the profile when
+  `keep_alive is None`.
+- Conclusion: P1 is strongly supported.
+
+#### Experiment 2
+- Hypothesis tested: P3
+- Expected if true: `http://127.0.0.1:9222/json/version` would fail after the
+  Browser Use crash.
+- Expected if false: The endpoint still answers, but session/context state may be
+  invalid.
+- Change / probe: Checked CDP endpoint after the failed run.
+- Result: `/json/version` still returned Chrome metadata.
+- Conclusion: P3 is not the primary failure.
+
+#### Experiment 3
+- Hypothesis tested: G1
+- Expected if true: Gmail tool dispatch reaches the MCP server, then the server
+  returns an OAuth error rather than a tool-registration error.
+- Expected if false: Gmail tools would be absent or dispatch would fail before
+  the MCP call.
+- Change / probe: Searched recent logs for Gmail dispatch.
+- Result: `gmail.search_emails` dispatched and returned
+  `Error: unauthorized_client`.
+- Conclusion: G1 is supported. Gmail needs OAuth/client credential repair; it is
+  not blocked on browser automation.
+
+#### Experiment 4
+- Hypothesis tested: P2 / CDP target selection
+- Expected if true: Browser Use connects to Chrome but selects a non-web CDP
+  target, then fails before navigating.
+- Expected if false: Browser Use should begin on a normal `about:blank` or
+  `https://...` page and navigate.
+- Change / probe: Ran a Browser Use smoke after the keep-alive patch and
+  inspected `/json/list`.
+- Result: Browser Use selected
+  `chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html`; logs then showed
+  `Emulation.setDeviceMetricsOverride: Target does not support metrics override`
+  and a screenshot timeout.
+- Conclusion: CDP target selection is a second browser failure. The adapter
+  needs to close/avoid internal Chrome top-chrome targets and select a usable
+  page before handing the session to Browser Use.
+
+### Fix Direction
+
+- Let Browser Use own the CDP keep-alive decision by defaulting
+  `VA_BROWSER_KEEP_ALIVE` to unset/`None`, not `False`.
+- Keep explicitly attached CDP/PID sessions reusable across tasks.
+- Pass Browser Use sessions through the explicit `browser_session=` argument.
+- Surface incomplete Browser Use histories with their actual first error so the
+  UI/planner does not hide protocol failures behind generic wording.
+- Before each CDP Browser Use run, close internal `chrome://omnibox-popup`
+  targets, ensure at least one normal page target exists, start the session, and
+  point Browser Use at a usable page.
+- Treat Gmail as a separate OAuth repair after Browser Use is stable.
+
+### Fix
+
+- Changed `browser_keep_alive` default from `False` to `None`, allowing Browser
+  Use to set `keep_alive=True` automatically for CDP/PID-attached browsers.
+- Passed reusable sessions via Browser Use's explicit `browser_session=`
+  argument.
+- Added CDP preflight to close `chrome://omnibox-popup` page targets and create a
+  normal `about:blank` target if no usable page exists.
+- Started external CDP/PID sessions before handing them to Browser Use, then
+  selected a usable page so Browser Use does not automate Chrome UI targets.
+- Improved Browser Use failed-history handling so protocol errors appear in the
+  tool result.
+
+### Verification
+
+- Focused Ruff:
+  `cactus/venv/bin/ruff check voice_agent/agent/browser_use_adapter.py tests/test_browser_use_adapter.py voice_agent/config.py tests/test_config.py tests/test_browser_session_factory.py`
+  -> all checks passed.
+- Focused regression:
+  `cactus/venv/bin/python -m pytest tests/test_browser_use_adapter.py tests/test_browser_session_factory.py tests/test_config.py -q`
+  -> 16 passed.
+- Full non-eval regression:
+  `cactus/venv/bin/python -m pytest tests/ -q --ignore=tests/evals`
+  -> 119 passed.
+- Live app smoke 1: `Open https://example.com in the browser and report the page
+  heading.` completed with final text `The page heading for example.com is
+  "Example Domain".`
+- Live app smoke 2 in the same running process: `Open https://example.org in the
+  browser and report the page heading.` completed with final text `The page
+  heading is "Example Domain".`
+- Live logs show `BrowserSession.stop() called but keep_alive=True`, confirming
+  the attached Chrome CDP context is no longer closed between Browser Use tasks.

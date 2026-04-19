@@ -50,4 +50,4 @@ def test_browser_profile_defaults() -> None:
     assert s.browser_profile_directory == "Default"
     assert s.browser_executable_path is None
     assert s.browser_channel is None
-    assert s.browser_keep_alive is False
+    assert s.browser_keep_alive is None

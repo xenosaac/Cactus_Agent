@@ -64,7 +64,7 @@ class Settings(BaseSettings):
     browser_profile_directory: str = "Default"
     browser_executable_path: Path | None = None
     browser_channel: str | None = None
-    browser_keep_alive: bool = False
+    browser_keep_alive: bool | None = None
 
     # Voice layer
     wake_phrases: tuple[str, ...] = ("hey cactus", "okay cactus", "cactus,")
