@@ -24,10 +24,8 @@ token.json
 .env
 .env.local
 
-# Cactus artifacts
-cactus/build/
-cactus/venv/
-cactus/weights/
+# Cactus runtime (sibling repo cloned next to the app, not part of this project)
+/cactus/
 
 # Cactus runtime state
 .cactus/
@@ -50,3 +48,10 @@ logs/
 # UI build artifacts (regenerated via voice_agent/ui/build.sh)
 voice_agent/ui/vendor/app.bundle.js
 voice_agent/ui/node_modules/
+
+# Local video editing scratch (Premiere projects, demo renders)
+Adobe Premiere Pro Audio Previews/
+Adobe Premiere Pro Auto-Save/
+*.prproj
+*.prin
+*.mp4
