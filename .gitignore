@@ -18,6 +18,7 @@ env/
 # OAuth / secrets - never commit
 credentials.json
 gcp-oauth.keys.json
+gmail.credentials.json
 token.json
 *.token
 .env

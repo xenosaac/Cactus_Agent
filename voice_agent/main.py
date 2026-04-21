@@ -16,6 +16,7 @@ import sys
 import threading
 import webbrowser
 from contextlib import suppress
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from voice_agent.events import AgentEvent, EventType, bus
@@ -375,15 +376,10 @@ async def _run_voice_stack(
         # Token path for gcal — where it saves access/refresh tokens after
         # first-run consent. Use project-local so tokens don't leak into $HOME
         # between projects.
-        from pathlib import Path
-        gcal_token_path = str((Path(__file__).resolve().parent.parent / "token.json").resolve())
+        project_root = Path(__file__).resolve().parent.parent
+        gcal_token_path = str((project_root / "token.json").resolve())
 
         mcp_specs = [
-            MCPServerSpec(
-                name="gmail",
-                command="npx",
-                args=["-y", "@gongrzhe/server-gmail-autoauth-mcp"],
-            ),
             MCPServerSpec(
                 name="gcal",
                 command="npx",

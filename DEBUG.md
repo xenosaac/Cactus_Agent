@@ -606,3 +606,62 @@ unexpectedly. The user also reported that Gmail does not work.
   heading is "Example Domain".`
 - Live logs show `BrowserSession.stop() called but keep_alive=True`, confirming
   the attached Chrome CDP context is no longer closed between Browser Use tasks.
+
+## Gmail OAuth Credential Repair
+
+### Problem
+
+The Gmail MCP server registers tools, but live Gmail calls return
+`unauthorized_client`. The user provided a new Google OAuth client JSON and
+asked to use it for the project while keeping it out of git.
+
+### Symptoms And Facts
+
+- The repo already ignores `credentials.json`, `gcp-oauth.keys.json`, and
+  `token.json`.
+- `credentials.json` is not tracked by git.
+- The app passes the project `credentials.json` only to the calendar MCP server.
+- The Gmail MCP package reads `GMAIL_OAUTH_PATH` / `GMAIL_CREDENTIALS_PATH`, or
+  falls back to `~/.gmail-mcp/gcp-oauth.keys.json` and
+  `~/.gmail-mcp/credentials.json`.
+- The machine has an existing `~/.gmail-mcp/credentials.json`, so Gmail may keep
+  using an old cached OAuth token even after the project credential is replaced.
+
+### Hypotheses
+
+- G2: Gmail is using stale global OAuth/token files from `~/.gmail-mcp` instead
+  of the new project credential.
+- G3: Replacing only project `credentials.json` fixes calendar but not Gmail,
+  because Gmail expects either `gcp-oauth.keys.json` or explicit Gmail env vars.
+- G4: The new credential is valid, but Gmail will continue to fail until the
+  stale cached Gmail token is removed and the OAuth consent flow is rerun.
+
+### Experiment Plan
+
+- Move the new OAuth file into project `credentials.json`, which is ignored.
+- Point Gmail MCP at ignored project-local OAuth and token paths.
+- Move the stale global Gmail token aside so the next Gmail auth uses the new
+  OAuth client.
+- Run the Gmail MCP auth flow and verify it writes a new ignored token file.
+
+### Experiment Result
+
+- The new OAuth file was moved into ignored project `credentials.json`.
+- The new OAuth file has `installed` credentials, and the Gmail MCP auth command
+  still forced `http://localhost:3000/oauth2callback`.
+- The stale global Gmail token was moved aside.
+- Google rejected the OAuth attempt with `Error 403: org_internal`, stating the
+  Cactus app can only be used inside its organization.
+
+### Conclusion
+
+The Gmail failure is not a local token-cache bug anymore. The provided OAuth
+client is organization-restricted, so personal Gmail accounts cannot authorize
+this Cactus Gmail API integration.
+
+### Fix Direction
+
+- Disable the Gmail MCP/API server from app startup.
+- Keep calendar MCP behavior unchanged.
+- Route future Gmail/email work through the browser or visible-screen tools
+  instead of the Gmail API.

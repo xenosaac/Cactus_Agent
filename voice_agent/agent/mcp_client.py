@@ -3,6 +3,7 @@ enumerates their tools, and exposes each tool as a ToolAdapter."""
 from __future__ import annotations
 
 import logging
+import os
 from contextlib import AsyncExitStack
 from dataclasses import dataclass, field
 from typing import Any
@@ -105,10 +106,15 @@ class MCPClientPool:
                 spec.name, spec.command, list(spec.args),
                 list((spec.env or {}).keys()),
             )
+            child_env = None
+            if spec.env:
+                child_env = os.environ.copy()
+                child_env.update(spec.env)
+
             params = StdioServerParameters(
                 command=spec.command,
                 args=list(spec.args),
-                env=(spec.env or None),
+                env=child_env,
             )
             try:
                 read, write = await self._stack.enter_async_context(
